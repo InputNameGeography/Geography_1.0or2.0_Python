@@ -1,0 +1,470 @@
+import sys
+import datetime
+from datetime import datetime
+import time
+import platform
+print("Geog.open_on_2.01.3.py       \033[s")
+time.sleep(0.5)
+in_count = on_count = 0
+more_print, JinDu, more_len, can_make_Debug, wait_time = False, 10, False, False, 0.1
+in_count_1 = in_count_2 = in_count_3 = in_count_4 = in_count_5 = in_count_6 = in_count_7 = 0
+end_run_time1 = start_run_time1 = start_run_time2 = end_run_time2 = start_run_time4 = end_run_time4 = 0
+while True:
+    on_count += 1
+    print("\033[0J")
+    time.sleep(wait_time)
+    can_ask_other = False
+    if can_make_Debug == True:
+        time_cha_1 = float(end_run_time1 - start_run_time1)
+        time_cha_2 = float(end_run_time2 - start_run_time2)
+        time_cha_4 = float(end_run_time4 - start_run_time4)
+        print(f"计次:\n{on_count},1{in_count_1},2{in_count_2},3{in_count_3},4{in_count_4},5{in_count_5},6{in_count_6},7{in_count_7}")
+        print(f"计时:\n1{time_cha_1:.6},2{time_cha_2:.6},30.0,4{time_cha_4:.6}")
+        in_count_1 = in_count_2 = in_count_3 = in_count_4 = in_count_5 = in_count_6 = in_count_7 = 0
+        end_run_time1 = start_run_time1 = start_run_time2 = end_run_time2 = start_run_time4 = end_run_time4 = 0
+    while True:
+        in_count += 1
+        in_count_1 = in_count
+        if can_ask_other == False:
+            user_input = input("请输入要选择的选项的对应数字或字母\n0.关于\n1.常规模式\n2.其他模式\n3.刷新\n4.退出运行")
+            if not user_input.strip():   
+                print("输入不能为空，请重新输入。")
+            try:
+                mu1 = int(''.join(filter(str.isdigit,  user_input)))
+                if mu1 in [1, 2]:
+                    if mu1 == 2:
+                        in_count = 0
+                        can_ask_other = True
+                        continue
+                    break
+                elif mu1 in [0, 3, 4, 12101]:
+                    break
+                print("输入不规范或不存在该模式")
+                continue
+            except:
+                print("输入不规范")
+                continue    
+        user_input = input("进入其他模式\n1.双地点比较\n2.返回")
+        if not user_input.strip():
+            print("输入不能为空，请重新输入。")
+        try:
+            mu1 = int(''.join(filter(str.isdigit,  user_input)))
+            mu1 += 10
+            if mu1 in [11, 12]:
+                break
+            print("输入不规范或不存在该模式")
+            continue
+        except:
+            print("输入不规范") 
+            continue      
+    in_count = 0
+    if mu1 == 1:
+        print("进入常规模式")   
+        while True:
+            in_count += 1
+            in_count_2 = in_count
+            if in_count >= 5:
+                print("\n示例:50.0°N")
+            user_input = input("请输入纬度(应是一位小数)：")
+            if not user_input.strip():   
+                print("输入不能为空，请重新输入。")
+            try:
+                num_part = float(''.join(filter(str.isdigit,  user_input)))
+                dir_part = ''.join(filter(str.isalpha,  user_input.upper())) 
+                if num_part == 0:
+                    wei_du = 0
+                    break    
+                elif dir_part in ['N', 'S']:
+                    wei_du = num_part * (-1 if dir_part == 'S' else 1) / JinDu
+                    if -90 <= wei_du <= 90:
+                        break 
+                print("方向标识不规范")
+            except:
+                print("输入不规范")
+        wei_abs = (abs(wei_du))
+        start_run_time1 = time.perf_counter() 
+        if wei_abs <= 30:
+            print(f"{wei_abs}°是低纬度地区")
+        elif wei_abs <= 60:
+            print(f"{wei_abs}°是中纬度地区")
+        elif wei_abs <= 90:
+            print(f"{wei_abs}°是高纬度地区")
+        if wei_abs < 23.5:
+            print(f"{wei_abs}°是热带地区")
+        elif wei_du >= 23.5:
+            print(f"{wei_abs}°是温带地区")    
+        elif wei_du >= 66.5:
+            print(f"{wei_abs}°是寒带地区")
+        if more_print == True:    
+            if wei_du >= 66.5:
+                print(f"({wei_abs}°北极地区)")
+            elif wei_du <= -60.0:
+                print(f"({wei_abs}°南极地区)")    
+            if wei_abs == 0:
+                print(f"({wei_abs}°是赤道)")    
+            elif wei_abs == 23.5:
+                print(f"{wei_abs}°是回归线")
+            elif wei_abs < 66.5:
+                print(f"{wei_abs}°是温带")
+            elif wei_abs == 66.5:
+                print(f"{wei_abs}°是极圈")
+            else:
+                print(f"{wei_abs}°是寒带")
+            if wei_abs == 90:
+                print(f"{wei_abs}°是极点")
+        end_run_time1 = time.perf_counter()    
+        in_count = 0
+        while True:
+            in_count += 1
+            in_count_3 = in_count
+            if in_count >= 5:
+                print("\n示例:100.0°E")
+            user_input = input("请输入经度(应是一位小数)：")
+            if not user_input.strip():   
+                print("输入不能为空，请重新输入。")
+            try:
+                num_part = float(''.join(filter(str.isdigit,  user_input))) / JinDu
+                dir_part = ''.join(filter(str.isalpha,  user_input.upper())) 
+                if num_part == 0:
+                    jin_du = 0
+                    break
+                elif num_part == 180: 
+                    jin_du = 180
+                    break    
+                elif dir_part in ['W', 'E']:
+                    jin_du = num_part * (-1 if dir_part == 'W' else 1)/10
+                    if -180 <= jin_du <= 180:
+                        break 
+                print("方向标识不规范")
+                continue
+            except:
+                print("输入不规范")
+                continue
+        jin_abs = (abs(jin_du)) 
+        start_run_time2 = time.perf_counter()
+        if -20 < jin_du <= 160:
+            print(f"{jin_abs}°是东半球")
+        elif 160 < jin_du or jin_du < -20:
+            print(f"{jin_abs}°是西半球")
+        if more_print == True:    
+            if jin_du == -20:
+                print(f"({jin_abs}°是东西半球分界线)")     
+            if jin_abs == 0:
+                print(f"({jin_abs}°是南北经度分界线)")
+            elif jin_abs == 180:
+                print(f"({jin_abs}°是国际日期变更线)")
+            if jin_abs == 0:
+                print(f"({jin_abs}°是本初子午线)")
+        in_count += 1
+        in_count_4 = in_count
+        time_Q = 0
+        shang, yu_shu = divmod((jin_abs - 7.5), 15)    
+        if shang < 0:
+            time_print = "中时"
+        elif shang == 0:
+            time_print = "一"
+        elif shang == 1:
+            time_print = "二"            
+        elif shang == 2:
+            time_print = "三"
+        elif shang == 3:
+            time_print = "四"
+        elif shang == 4:
+            time_print = "五"
+        elif shang == 5:
+            time_print = "六"
+        elif shang == 6:
+            time_print = "七"
+        elif shang == 7:
+            time_print = "八"
+        elif shang == 8:
+            time_print = "九"
+        elif shang == 9:
+            time_print = "十"
+        elif shang == 10:
+            time_print = "十一"
+        elif shang == 11:
+            time_print = "十二"
+        if jin_du > 7.5:
+            w_e_print = "东" 
+        elif jin_du < -7.5:
+            w_e_print = "西" 
+        else:
+            w_e_print = ""
+        end_run_time2 = time.perf_counter()   
+        print(f"{jin_abs}°是{w_e_print}{time_print}区")    
+        time_zero = shang + 1
+        utc = datetime.utcnow()
+        year = utc.year
+        month = utc.month
+        day = utc.day
+        hour = utc.hour + time_zero
+        minute = utc.minute
+        minute_add = yu_shu * 4
+        minute = minute_add + minute
+        shang, yu_shu = divmod(year, 100)
+        if yu_shu != 0:    
+            shang, yu_shu = divmod(year, 4)
+            year_print = "平"
+        else:
+            shang, yu_shu = divmod(year, 400) 
+            year_print = "闰"   
+        February_day = 29 if yu_shu == 0 else 28
+        if minute >= 60:
+            minute = 0
+            hour = int(hour + 1)
+        if hour >= 24:
+            hour = 0
+            day = int(day + 1)
+        if month in [1, 3, 5, 7, 8, 10, 12] and day > 31:
+            day = 1
+            month = int(month + 1) 
+        else:
+            if month == 2 and day > February_day:
+                day = 1
+                month = int(month + 1)
+            elif day > 30:
+                day = 1
+                month = int(month + 1)
+        if month > 12:
+            month = 1
+            year = int(year + 1)
+        minute = "整" if minute == 0 else f"{minute}分"
+        print(f"本地时间:{year}年{month}月{day}日,{hour}时{minute}")
+        continue
+    if mu1 == 11:
+        print("进入双地点比较模式")
+        mu1_2_input, can_use_B = "A", False
+        while True:
+            in_count += 1
+            in_count_5 = in_count
+            if in_count >= 5:
+                print("\n示例:50.0°N")
+            user_input = input(f"请输入{mu1_2_input}地纬度(应是一位小数)：")
+            if not user_input.strip():   
+                print("输入不能为空，请重新输入。")
+            try:
+                num_part = float(''.join(filter(str.isdigit,  user_input)))
+                dir_part = ''.join(filter(str.isalpha,  user_input.upper())) 
+                if can_use_B == False:    
+                    if num_part == 0:
+                        wei_du_A = 0
+                        can_use_B, mu1_2_input = True, "B"
+                        continue 
+                    elif dir_part in ['N', 'S']:
+                        wei_du_A = num_part * (-1 if dir_part == 'S' else 1) / JinDu
+                        if -90 <= wei_du_A <= 90:
+                            can_ask_B, mu1_2_input= True, "B"
+                            continue
+                if can_use_B == True:
+                    if num_part == 0:
+                        wei_du_B = 0
+                        break
+                    elif dir_part in ['N', 'S']:
+                        wei_du_B = num_part * (-1 if dir_part == 'S' else 1) / JinDu
+                        if -90 <= wei_du_B <= 90:
+                            break         
+                print("方向标识不规范")
+                continue
+            except:
+                print("输入不规范")
+                continue
+        mu1_2_input, can_use_B, in_count = "A", False, 0
+        while True:
+            in_count += 1
+            in_count_6 = in_count
+            if in_count >= 5:
+                print("\n示例:100.0°E")
+            user_input = input(f"请输入{mu1_2_input}地经度(应是一位小数)：")
+            if not user_input.strip():   
+                print("输入不能为空，请重新输入。")
+            try:
+                num_part = float(''.join(filter(str.isdigit,  user_input)))
+                dir_part = ''.join(filter(str.isalpha,  user_input.upper())) 
+                if can_use_B == False:    
+                    if num_part == 0:
+                        jin_du_A = 0
+                        can_use_B, mu1_2_input = True, "B"
+                        jin_du_A += 0
+                        continue 
+                    elif dir_part in ['N', 'S']:
+                        jin_du_A = num_part * (-1 if dir_part == 'S' else 1) / JinDu
+                        if -90 <= jin_du_A <= 90:
+                            can_use_B, mu1_2_input = True, "B"
+                            continue
+                else:
+                    if num_part == 0:
+                        jin_du_B = 0
+                        break
+                    elif dir_part in ['W', 'E']:
+                        jin_du_B = num_part * (-1 if dir_part == 'W' else 1) / JinDu
+                        if -90 <= wei_du_B <= 90:
+                            break       
+                print("方向标识不规范")
+                continue
+            except:
+                print("输入格式不规范")
+                continue
+        can_use_B = False        
+        while True:
+            if can_use_B == False:
+                jin_du = jin_du_A
+                can_use_B = True
+            else:
+                jin_du = jin_du_B
+                can_use_B = False         
+            jin_abs = (abs(jin_du))    
+            in_count += 1
+            in_count_7 = in_count
+            time_Q = 0
+            shang, yu_shu = divmod((jin_abs - 7.5), 15)
+            start_run_time4 = time.perf_counter()    
+            if shang < 0:
+                time_print = "中时"
+            elif shang == 0:
+                time_print = "一"
+            elif shang == 1:
+                time_print = "二"            
+            elif shang == 2:
+                time_print = "三"
+            elif shang == 3:
+                time_print = "四"
+            elif shang == 4:
+                time_print = "五"
+            elif shang == 5:
+                time_print = "六"
+            elif shang == 6:
+                time_print = "七"
+            elif shang == 7:
+                time_print = "八"
+            elif shang == 8:
+                time_print = "九"
+            elif shang == 9:
+                time_print = "十"
+            elif shang == 10:
+                time_print = "十一"
+            elif shang == 11:
+                time_print = "十二"
+            if jin_du > 7.5:
+                w_e_print = "东" 
+            elif jin_du < -7.5:
+                w_e_print = "西" 
+            else:
+                w_e_print = ""
+            end_run_time4 = time.perf_counter()    
+            print(f"{jin_abs}°是{w_e_print}{time_print}区")    
+            time_zero = shang + 1
+            utc = datetime.utcnow()
+            year = utc.year
+            month = utc.month
+            day = utc.day
+            hour = utc.hour + time_zero
+            minute = utc.minute
+            minute_add = yu_shu * 4
+            minute = minute_add + minute
+            shang, yu_shu = divmod(year, 100)
+            if yu_shu != 0:    
+                shang, yu_shu = divmod(year, 4)
+                year_print = "平"
+            else:
+                shang, yu_shu = divmod(year, 400) 
+                year_print = "闰"   
+            February_day = 29 if yu_shu == 0 else 28
+            if minute >= 60:
+                minute = 0
+                hour = int(hour + 1)
+            if hour >= 24:
+                hour = 0
+                day = int(day + 1)
+            if month in [1, 3, 5, 7, 8, 10, 12] and day > 31:
+                day = 1
+                month = int(month + 1) 
+            else:
+                if month == 2 and day > February_day:
+                    day = 1
+                    month = int(month + 1)
+                elif day > 30:
+                    day = 1
+                    month = int(month + 1)
+            if month > 12:
+                month = 1
+                year = int(year + 1)
+            minute = "整" if minute == 0 else f"{minute}分"
+            print(f"本地时间:{year}年{month}月{day}日,{hour}时{minute},{year_print}年")
+            if can_use_B == False:
+                break
+            continue    
+        wei_du_cha = (abs(wei_du_A - wei_du_B))
+        jin_du_cha = (abs(jin_du_A - jin_du_B))
+        if wei_du_cha == 0 and jin_du_cha == 0:
+            print("两地经纬位置相同")
+            break
+        else:
+            print(f"纬度差{wei_du_cha}°")
+            print(f"经度差{jin_du_cha}°")
+        if more_len == True:
+            if jin_du_1 > 0 and jin_du_2 > 0:
+                pass
+            wei_du_cha *= 111
+            jin_du_cha *= 40000
+            len_long = (wei_du_cha**2 + jin_du_cha**2)**0.5
+            print(f"两地距离也许是{len_long}km左右吧")    
+    if mu1 == 0:
+        print("文件信息:Geog.py[2.01.3]\n版本:0.2.03.b01-20250828(2.01.b_on)\n继承:地理0.2.01.3a\n执行稳定性:不稳定\n显示:部分启用ANSI\n设置:12101于主菜单")
+    if mu1 == 4:
+        break    
+    if mu1 == 12101:
+        while True:
+            if more_print == True:
+                green_print1 = "open"
+            else:
+                green_print1 = "off"          
+            if more_len == True:
+                green_print2 = "testing"
+            else:
+                green_print2 = "off"           
+            if can_make_Debug == True:
+                green_print3 = "oppe"
+            else:
+                green_print3 = "off"   
+            print(f"""
+实验性功能:            
+–––––––––––––––––––––––––––––––        
+1.特殊地点显示: {green_print1}
+2.两地相关计算: {green_print2} 
+3.Debug统计: {green_print3}
+4.经纬精度: {JinDu}
+5.等待时间: {wait_time}s 不支持修改
+–––––––––––––––––––––––––––––––
+6.返回
+                """)
+            user_input = input()
+            if not user_input.strip():   
+                print("输入不能为空，请重新输入。")
+            try:
+                mu2 = int(''.join(filter(str.isdigit,  user_input)))
+                if mu2 in [1, 2, 3, 4, 5, 6]:
+                    if mu2 == 1:
+                        more_print = (more_print == False)
+                    elif mu2 == 2:
+                        more_len = (more_len == False)    
+                    elif mu2 == 3:
+                        can_make_Debug = (can_make_Debug == False)
+                    elif mu2 == 4:
+                        JinDu = input("请输入精度")
+                    if mu2 == 6:
+                        break
+            except:
+                pass  
+                                
+                
+                
+            
+        
+       
+                       
+        
+            
+        
+        
+        
